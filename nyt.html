@@ -3,6 +3,10 @@ index.<html lang="en">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="backendApi.js"></script>
+
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
@@ -19,12 +23,6 @@ index.<html lang="en">
         .panel-heading{
             background-color: lightgrey;
         }
-    
-        
-    
-    
-    
-    
     
     </style>
     
@@ -64,30 +62,30 @@ index.<html lang="en">
     
                                 <div class="start">
                                         <label for="start">Start year:</label>
-                                        <input type="year" class="form-control" id="start-year">
+                                        <input type="year" class="form-control" id="start-year" value="">
                                       </div>
                                       <div class="end">
                                             <label for="end">End year:</label>
-                                            <input type="year" class="form-control" id="end-year">
+                                            <input type="year" class="form-control" id="end-year" value="">
                                           </div>
     
                                           <div id="button">
-                                          <button type="button" class="btn btn-primary btn-md">Search</button>
-                                          <button type="button" class="btn btn-primary btn-md">Clear All</button>
+                                          <button id="submitBtn" type="button" class="btn btn-primary btn-md">Search</button>
+                                          <button id="clearBtn" type="button" class="btn btn-primary btn-md">Clear All</button>
                                         </div>
                               </form>
     
                               <div class="panel2">
                                     <div class="panel-heading"><i class="far fa-newspaper"></i> Top Articles</div>
                                     <div class="panel-body"> search results
-                                        <div id= "Search Results">
-    
+                                        <div id="search-results"></div>
                                         </div>
-                                         </div>
                                   </div>
                           </div>
     
                         </div>
     </div>
     </body>
+
+
     </html>

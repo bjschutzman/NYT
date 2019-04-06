@@ -1,56 +1,93 @@
     
-// 61b2003f-5c61-4f96-acd1-3978f08bae80 AppId Trevis
+// NY Times Article Search API
+// api_key = eIfPjlynt1Zu0HJq8zHgV8JfK4D6qcRH  (Will's key) 
 
-// 5d859c95-56d0-42d9-b066-ac07e96017bc AppId Will
+$(document).ready(function() {
 
-// eIfPjlynt1Zu0HJq8zHgV8JfK4D6qcRH Api Key Will 
+    //Assigning jQuery objects from DOM elements
+    var $q = $("#search-term").val();
+    var $resultsDiv = $("#search-results");
+    var $numberRecords = $("#number").val();
+    var $startYear = $("#start-year");
+    var $endYear = $("#end-year");
 
-// var q = $("#searchTerm");
-var q = "texas";
-var $resultsDiv = $("#results");
-var $numberRecords = $("");
-var $startYear = $("");
-var $EndYear = $("");
+    var queryURL;
+    var apiKey = "eIfPjlynt1Zu0HJq8zHgV8JfK4D6qcRH";
+ 
 
-var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
-var apiKey = "eIfPjlynt1Zu0HJq8zHgV8JfK4D6qcRH";
+    $("button").on("click", function(){
+        //reset URL string
+        queryURL = "";
 
-
-$("button").on("click", function(){
-
-
-    //User inputs
-    queryURL += "q=";
-    queryURL += q;
-    queryURL += "&api-key=";
-    queryURL += apiKey;
-    queryURL += '&fq=pub_year:("1998" "1999" "2000" "2001")';
-
-   // queryURL += $startYear;
-
-    $numberRecords = 5;
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    })
-        .then(function(response) {
+        // Constant Variable for the queryURL
+        queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
     
-            console.log(response);
-        for (var i = 0; i < $numberRecords; i++) {
-            console.log(response.response.docs[i].headline.main);
+        
 
-            var headline = response.response.docs[i].headline.main;
-            var address = response.response.docs[i].web_url;
-            var $articleDiv = $("<br><a>");
-                
+        //User inputs concatentate to query string
+        queryURL += "q=";
+        queryURL += $q;
+        queryURL += "&api-key=";
+        queryURL += apiKey;
+
+        
+        queryURL += yearsFilter($startYear, $endYear);
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        })
+            .then(function(response) {
+        
+                console.log(response);
+            for (var i = 0; i < $numberRecords; i++) {
+                console.log(response.response.docs[i].headline.main);
+
+                var headline = response.response.docs[i].headline.main;
+                var address = response.response.docs[i].web_url;
+                var $articleDiv = $("<br><a>");
+                    
 
                 $articleDiv.attr("href", address);
                 $articleDiv.text(headline);
 
                 $resultsDiv.append($articleDiv);
+                console.log($articleDiv);
+            }
 
-        }
+            });    
 
-        });    
+    });
 
+    function yearsFilter(start, end){
+       
+        //setup query string variable
+        var queryString = '&fq=pub_year:(';
+
+        //parse input year values to integer to evaluate
+        var s = parseInt(start.val());
+        var e = parseInt(end.val());
+        
+       //if end year is blank set to current year
+        if (end.val() === ""){
+            var d = new Date();
+            e = d.getFullYear();
+        };
+    
+        if(start.val() !== ""){ //if start year is specified by user create filter
+            if(s <= e){// make sure year inputs are chronologically correct
+                for(var i = s; i <= e; i++){
+                queryString += '"' + i + '"';
+                }
+            } else {
+                alert("Error in filters. Choose a start year before the end year.");
+                return "";
+            }
+            queryString += ")";
+             return queryString;
+         }   else { // no year filter, return blank string
+             return "";
+         }
+        
+    }
 });
