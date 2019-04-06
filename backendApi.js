@@ -4,10 +4,10 @@
 
 $(document).ready(function() {
 
-    //Assigning jQuery objects from DOM elements
-    var $q = $("#search-term").val();
+    //Grab values from DOM elements
+    var $q = $("#search-term");
     var $resultsDiv = $("#search-results");
-    var $numberRecords = $("#number").val();
+    var numberRecords = $("select.number").children("option:selected").val();
     var $startYear = $("#start-year");
     var $endYear = $("#end-year");
 
@@ -15,9 +15,14 @@ $(document).ready(function() {
     var apiKey = "eIfPjlynt1Zu0HJq8zHgV8JfK4D6qcRH";
  
 
-    $("button").on("click", function(){
+    //submit button click event handler ============================================
+
+    $("button.submit").on("click", function(){
         //reset URL string
         queryURL = "";
+
+        //clear results div
+        $resultsDiv.empty();
 
         // Constant Variable for the queryURL
         queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
@@ -26,7 +31,7 @@ $(document).ready(function() {
 
         //User inputs concatentate to query string
         queryURL += "q=";
-        queryURL += $q;
+        queryURL += $q.val();
         queryURL += "&api-key=";
         queryURL += apiKey;
 
@@ -39,25 +44,45 @@ $(document).ready(function() {
         })
             .then(function(response) {
         
-                console.log(response);
-            for (var i = 0; i < $numberRecords; i++) {
-                console.log(response.response.docs[i].headline.main);
+                //create a short message decribing the results to user
+                var showing = numberRecords;
+                if(response.response.docs.length < numberRecords){ //query return fewer results than numberRecords requested by user
+                        showing = response.response.docs.length;
+                }
+                $resultsDiv.append("Showing " + showing + " search results for <em>" + $q.val() + "</em>");
+                
+                //Iterate through the response and display headlines with link
+                for (var i = 0; i < numberRecords; i++) {
 
-                var headline = response.response.docs[i].headline.main;
-                var address = response.response.docs[i].web_url;
-                var $articleDiv = $("<br><a>");
-                    
+                    var headline = response.response.docs[i].headline.main;
+                    var address = response.response.docs[i].web_url;
+                    var $articleDiv = $("<br>" + (i+1) + ". <a>");
+                        
+                    $articleDiv.attr("href", address);
+                    $articleDiv.text(headline);
 
-                $articleDiv.attr("href", address);
-                $articleDiv.text(headline);
-
-                $resultsDiv.append($articleDiv);
-                console.log($articleDiv);
-            }
+                    $resultsDiv.append($articleDiv);
+                    console.log($articleDiv);
+                }
 
             });    
 
     });
+
+    //END OF submit button click event handler ============================================
+
+
+    //clear button click event handler ===================================================
+
+    //END OF clear button click event handler ============================================
+
+
+    // numberRecord change event handler =================================================
+    $("select.number").change(function(){
+        numberRecords = $(this).children("option:selected").val();
+       // alert("You have selected the country - " + selectedCountry);
+    });
+     // End of numberRecord change event handler =================================================
 
     function yearsFilter(start, end){
        

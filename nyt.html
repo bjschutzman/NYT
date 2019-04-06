@@ -1,4 +1,4 @@
-index.<html lang="en">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,17 +46,17 @@ index.<html lang="en">
                             <form action="/action_page.php">
                                 <div class="form-group">
                                   <label for="search-term">Search Term</label>
-                                  <input type="search" class="form-control" id="search-term">
+                                  <input type="search" class="form-control" id="search-term" value="Texas Tech">
                                 </div>
     
     
                                 <div class="records">
                                         <label for="number">Number of Records to Retrieve:</label>
-                                        <select class="form-control" id="number">
-                                          <option>1</option>
-                                          <option>2</option>
-                                          <option>3</option>
-                                          <option>4</option>
+                                        <select class="form-control number">
+                                          <option value="1" >1</option>
+                                          <option selected="selected" value="4">4</option>
+                                          <option value="7">7</option>
+                                          <option value="10">10</option>
                                         </select>
                                       </div>
     
@@ -70,8 +70,8 @@ index.<html lang="en">
                                           </div>
     
                                           <div id="button">
-                                          <button id="submitBtn" type="button" class="btn btn-primary btn-md">Search</button>
-                                          <button id="clearBtn" type="button" class="btn btn-primary btn-md">Clear All</button>
+                                          <button type="button" class="btn btn-primary btn-md submit">Search</button>
+                                          <button type="button" class="btn btn-primary btn-md clear">Clear All</button>
                                         </div>
                               </form>
     
